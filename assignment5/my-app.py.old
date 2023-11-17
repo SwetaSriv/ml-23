@@ -1,0 +1,37 @@
+
+from flask import Flask, request, jsonify
+from joblib import load
+
+app = Flask(_name_)
+model_path = "model.joblib"
+model = load(model_path)
+
+# ... other parts of your app
+
+@app.route("/")
+def hello_world():
+        return "<!-- hello --> <b> Hello, World!</b>"
+
+
+    # get x and y somehow    
+    #     - query parameter
+    #     - get call / methods
+    #     - post call / methods ** 
+ @app.route("/sum", methods=['POST'])
+    def sum():
+            x = request.json['x']
+                y = request.json['y']
+                    z = x + y 
+                        return {'sum':z}
+
+
+
+                    @app.route("/predict", methods=['POST'])
+                    def predict_digit():
+                            image = request.json['image']
+                                print("done loading")
+                                    predicted = model.predict([image])
+                                        return {"y_predicted":int(predicted[0])}
+
+                                    if _name_ == "_main_":
+                                            app.run(host="0.0.0.0", port=5000)
