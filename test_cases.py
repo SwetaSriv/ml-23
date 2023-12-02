@@ -58,3 +58,10 @@ def test_solver_name(m22aie204, solver_name):
     model = load_model(f"{m22aie204}lr{solver_name}.joblib")
     model_solver = model.get_params()['solver']
     assert model_solver == solver_name, f"Solver in the model ({model_solver}) does not match the solver in the file name ({solver_name})"
+
+    @pytest.fixture
+def m22aie204():
+    # Return the setup or value needed for m22aie204
+
+@pytest.fixture
+def solver_name():
