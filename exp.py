@@ -52,6 +52,18 @@ for cur_run_i in range(num_runs):
             # 3. Data splitting -- to create train and test sets                
             X_train, X_test, X_dev, y_train, y_test, y_dev = train_test_dev_split(X, y, test_size=test_size, dev_size=dev_size)
             # 4. Data preprocessing
+from sklearn.preprocessing import Normalizer
+
+# Function to apply unit normalization
+def normalize_data(data):
+    normalizer = Normalizer()
+    return normalizer.fit_transform(data)
+
+# Applying unit normalization to the datasets
+X_train = normalize_data(X_train)
+X_test = normalize_data(X_test)
+X_dev = normalize_data(X_dev)
+
             X_train = preprocess_data(X_train)
             X_test = preprocess_data(X_test)
             X_dev = preprocess_data(X_dev)
