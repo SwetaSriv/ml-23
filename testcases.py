@@ -17,38 +17,44 @@ def test_post_root():
     assert response.status_code == 200    
     assert response.get_json()['op'] == "Hello, World POST "+suffix
 
-def test_post_predict():
-    # Assuming you have a function to fetch a sample for each digit from the dataset
-    # Replace `get_sample_for_digit` with your actual implementation
-    for digit in range(10):
-        sample = get_sample_for_digit(digit)
-        response = app.test_client().post("/predict", json={"image": sample})
-        assert response.status_code == 200
-        assert response.get_data() == str(digit).encode()
-        
+def test_load_models_route(self):
+        response = self.app.get('/load_models')
+        data = json.loads(response.get_data(as_text=True))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('status', data)
+        self.assertEqual(data['status'], 'Models loaded successfully')
+
+
+def test_predict_route_svm(self):
+        payload = {"suffix": "test_suffix"}
+        response = self.app.post('/predict/svm', json=payload)
+        data = json.loads(response.get_data(as_text=True))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('op', data)
+        self.assertIn('Prediction for svm with suffix', data['op'])
+
+    def test_predict_route_lr(self):
+        payload = {"suffix": "test_suffix"}
+        response = self.app.post('/predict/lr', json=payload)
+        data = json.loads(response.get_data(as_text=True))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('op', data)
+        self.assertIn('Prediction for lr with suffix', data['op'])
+
+    def test_predict_route_tree(self):
+        payload = {"suffix": "test_suffix"}
+        response = self.app.post('/predict/tree', json=payload)
+        data = json.loads(response.get_data(as_text=True))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('op', data)
+        self.assertIn('Prediction for tree with suffix', data['op'])
 
 
 
-def get_sample_for_digit(digit):
-    # Find indices of images with the specified digit
-    
-    mnist = fetch_openml(name="mnist_784", version=1)
-    images, labels = mnist.data, mnist.target.astype(int)
-    images = images.values.reshape((-1, 28, 28))
-    digit_indices = np.where(labels == digit)
 
-    # Randomly select one index
-    random_index = random.choice(digit_indices[0])
 
-    # Get the corresponding image
-    sample_image = images[random_index]
-
-    # Flatten the 2D image to a 1D array
-    flattened_sample = sample_image.flatten()
-    #test for digit 7
-    get_sample_for_digit(7)
-    sample_for_digit_7=print(sample_for_digit_7)
-
-    return flattened_sample
-        
         
