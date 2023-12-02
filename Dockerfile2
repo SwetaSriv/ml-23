@@ -1,0 +1,10 @@
+# FinalDockerfile
+
+# Use the Dependency Image as the base image
+FROM mlops23.azurecr.io/dependencyimage:latest
+
+# Copy the application code
+COPY . /app
+
+# Set the command to run pytest
+CMD ["pytest"]
